@@ -25,7 +25,6 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="96dp"
                 android:layout_marginEnd="24dp"
-
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
@@ -53,7 +52,7 @@
 
         <Button
                 android:id="@+id/login"
-                android:enabled="false"
+                android:enabled="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -62,6 +61,7 @@
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="64dp"
                 android:text="@string/action_sign_in"
+                android:onClick="@{loginModel::login}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

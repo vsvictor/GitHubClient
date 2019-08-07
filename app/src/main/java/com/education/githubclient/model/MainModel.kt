@@ -1,15 +1,18 @@
 package com.education.githubclient.model
 
 import android.app.Application
+import android.content.Intent
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Observer
+import com.education.githubclient.MainActivity
 import com.education.githubclient.R
 
-class MainModel(val app : Application) : AndroidViewModel(app), DrawerLayout.DrawerListener {
+class MainModel(val app : Application, val user: User) : AndroidViewModel(app), DrawerLayout.DrawerListener {
     private val TAG = MainModel::class.java.simpleName
     val appTitle : ObservableField<String> = ObservableField(app.getString(R.string.menu_home))
     val drawerState : ObservableField<OnDrawerState> = ObservableField()

@@ -9,18 +9,28 @@ import android.view.Menu
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.education.githubclient.databinding.ActivityMainBinding
+import com.education.githubclient.databinding.NavHeaderMainBinding
 import com.education.githubclient.model.MainModel
+import com.education.githubclient.model.MainViewModelFactory
+import com.education.githubclient.model.User
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.view.*
 
 class MainActivity : BaseActivity(){
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var mainModel : MainModel
-
+    private lateinit var binder : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binder : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mainModel = ViewModelProviders.of(this).get(MainModel::class.java)
+        val user = intent.getParcelableExtra<User>("user")
+        binder = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        mainModel = ViewModelProviders.of(this, MainViewModelFactory(application, user)).get(MainModel::class.java)
         setSupportActionBar(binder.drawerLayout.toolbar)
+
+        val viewHeader = nav_view.getHeaderView(0)
+        val bindingHeader : NavHeaderMainBinding = NavHeaderMainBinding.bind(viewHeader)
+        bindingHeader.mainModel = mainModel
+
         val toggle = ActionBarDrawerToggle(this, binder.drawerLayout, binder.drawerLayout.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         binder.drawerLayout.addDrawerListener(toggle)
         binder.drawerLayout.addDrawerListener(mainModel)
@@ -29,7 +39,7 @@ class MainActivity : BaseActivity(){
     }
 
     override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val drawerLayout: DrawerLayout = binder.drawerLayout
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
